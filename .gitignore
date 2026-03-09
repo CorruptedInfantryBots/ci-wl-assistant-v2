@@ -175,3 +175,7 @@ cython_debug/
 
 *.log*
 *.env
+*.env.local
+timers.db
+data/
+.venv/

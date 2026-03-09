@@ -1,5 +1,4 @@
 import logging
-from ratelimiter import RateLimiter
 from threading import Lock
 import requests
 import config

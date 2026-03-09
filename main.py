@@ -114,7 +114,7 @@ def handle_hours_played(members_data):
             steamID,
             IFNULL(SUM(TIMESTAMPDIFF(SECOND, joinTime, leaveTime)) / 3600, 0) AS hours_played
         FROM
-            ActivityTracker_PlayerSessions
+            ActivityTracker_PlayerSession
         WHERE
             joinTime >= %s
         GROUP BY
@@ -206,6 +206,12 @@ def deduplicate_members_data(members_data):
     return list(unique_members.values())
 
 def main():
+    health_file = 'data/health.check'
+    try:
+        with open(health_file, 'w') as f:
+            f.write(str(time.time()))
+    except Exception as e:
+        logger.error(f'Failed to update health check file: {e}')
 
     # Fetch data from mongodb
     db_results = perform_database_operations()

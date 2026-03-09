@@ -1,0 +1,59 @@
+services:
+  assistant:
+    build: .
+    volumes:
+      - .:/home/assistant/app
+      - timers_data:/home/assistant/app/data
+    env_file: .env.local
+    environment:
+      - SQL_HOST=mysql
+      - MONGODB_HOST=mongodb
+      - LOG_FILE=/home/assistant/app/data/app.log
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./scripts/init-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: squadjsci
+      MYSQL_USER: squadjs
+      MYSQL_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init.js
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  timers_data:
