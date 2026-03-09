@@ -1,0 +1,5 @@
+pymongo
+python-dotenv
+ratelimiter
+mysql-connector-python
+requests
