@@ -50,7 +50,7 @@ class RoleManager:
         logger.debug(f"Cancelled timer for user {user_id}")
 
     def load_timers(self):
-        conn = sqlite3.connect('timers.db')
+        conn = sqlite3.connect('data/timers.db')
         c = conn.cursor()
         c.execute('SELECT discord_user_id, role_id, expiration_time FROM timers')
         rows = c.fetchall()
@@ -58,7 +58,7 @@ class RoleManager:
         return rows
 
     def get_timer_info(self, user_id):
-        conn = sqlite3.connect('timers.db')
+        conn = sqlite3.connect('data/timers.db')
         c = conn.cursor()
         c.execute('SELECT start_time FROM timers WHERE discord_user_id = ?', (user_id,))
         row = c.fetchone()

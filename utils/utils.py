@@ -8,7 +8,7 @@ import config
 logger = logging.getLogger(__name__)
 
 def execute_db_query(query, args=()):
-    conn = sqlite3.connect('timers.db')
+    conn = sqlite3.connect('data/timers.db')
     c = conn.cursor()
     c.execute(query, args)
     conn.commit()
@@ -16,12 +16,12 @@ def execute_db_query(query, args=()):
 
 def initialize_database():
     """
-    Initializes the timers.db database and creates the timers table if it doesn't exist.
+    Initializes the data/timers.db database and creates the timers table if it doesn't exist.
     """
-    if not os.path.exists('timers.db'):
-        logger.info('Database timers.db does not exist. Creating a new one.')
+    if not os.path.exists('data/timers.db'):
+        logger.info('Database data/timers.db does not exist. Creating a new one.')
     else:
-        logger.info('Database timers.db already exists.')
+        logger.info('Database data/timers.db already exists.')
 
     # Create the timers table if it doesn't exist
     execute_db_query('''
@@ -32,7 +32,7 @@ def initialize_database():
         start_time TEXT
     )
     ''')
-    logger.info('Timers table ensured to exist in timers.db.')
+    logger.info('Timers table ensured to exist in data/timers.db.')
     
 def is_valid_container_name(name):
     # Allow alphanumeric characters, underscores, and hyphens
