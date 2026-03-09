@@ -114,7 +114,7 @@ def handle_hours_played(members_data):
             steamID,
             IFNULL(SUM(TIMESTAMPDIFF(SECOND, joinTime, leaveTime)) / 3600, 0) AS hours_played
         FROM
-            ActivityTracker_PlayerSession
+            ActivityTracker_PlayerSessions
         WHERE
             joinTime >= %s
         GROUP BY
