@@ -2,7 +2,6 @@ services:
   assistant:
     build: .
     volumes:
-      - .:/home/assistant/app
       - timers_data:/home/assistant/app/data
     env_file: .env.local
     environment:

@@ -7,15 +7,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m assistant
-USER assistant
+RUN useradd -m assistant && mkdir -p /home/assistant/app/data && chown -R assistant:assistant /home/assistant
 WORKDIR /home/assistant/app
 
 COPY --chown=assistant:assistant requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
 COPY --chown=assistant:assistant . .
+RUN chown -R assistant:assistant /home/assistant/app/data
 
+USER assistant
 RUN chmod +x main.py
 
 ENV PATH="/home/assistant/.local/bin:${PATH}"
