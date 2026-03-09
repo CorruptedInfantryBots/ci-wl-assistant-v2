@@ -11,7 +11,7 @@ RUN useradd -m assistant && mkdir -p /home/assistant/app/data && chown -R assist
 WORKDIR /home/assistant/app
 
 COPY --chown=assistant:assistant requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=assistant:assistant . .
 RUN chown -R assistant:assistant /home/assistant/app/data

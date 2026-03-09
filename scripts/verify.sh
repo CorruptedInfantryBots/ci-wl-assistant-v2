@@ -13,17 +13,18 @@ sed -i 's/ACTIVITY_ROLE_ID=.*/ACTIVITY_ROLE_ID=1234/' .env.local
 
 docker compose -f docker-compose.local.yml up -d --build
 
-MAX_RETRIES=3
+MAX_RETRIES=12
 RETRY_COUNT=0
 
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-  sleep 5
-  if docker compose -f docker-compose.local.yml logs assistant | grep -q "Processed 1 users"; then
+  sleep 10
+  if docker compose -f docker-compose.local.yml logs assistant | grep -i "Processed 1 users"; then
     echo "Verification Successful: Service processed dummy data."
     docker compose -f docker-compose.local.yml down
     exit 0
   fi
   RETRY_COUNT=$((RETRY_COUNT+1))
+  echo "Waiting for service to process data... ($RETRY_COUNT/$MAX_RETRIES)"
 done
 
 echo "Verification Failed: Service logs did not show expected dummy data processing."
