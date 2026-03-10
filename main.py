@@ -6,6 +6,7 @@ import logging
 import signal
 import sys
 import threading
+import os
 from logging.handlers import RotatingFileHandler
 import config
 from database.mongodb import perform_database_operations
