@@ -8,14 +8,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m assistant && mkdir -p /home/assistant/app/data && chown -R assistant:assistant /home/assistant
+RUN useradd -m assistant && mkdir -p /home/assistant/app/data /home/assistant/app/logs && chown -R assistant:assistant /home/assistant
 WORKDIR /home/assistant/app
 
 COPY --chown=assistant:assistant requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=assistant:assistant . .
-RUN chown -R assistant:assistant /home/assistant/app/data
+RUN chown -R assistant:assistant /home/assistant/app/data /home/assistant/app/logs
 
 USER assistant
 RUN chmod +x main.py
