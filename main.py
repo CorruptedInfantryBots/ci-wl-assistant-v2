@@ -20,6 +20,11 @@ from utils import initialize_database, run_rsync
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+# Ensure the log directory exists
+log_dir = os.path.dirname(config.LOG_FILE)
+if log_dir and not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
 # Add a rotating file handler to manage log file size
 handler = RotatingFileHandler(config.LOG_FILE, maxBytes=config.LOG_MAX_BYTES, backupCount=config.LOG_BACKUP_COUNT)
 logger.addHandler(handler)

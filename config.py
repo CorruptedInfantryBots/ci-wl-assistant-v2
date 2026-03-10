@@ -51,6 +51,6 @@ TIMER_DURATION = int(os.getenv('TIMER_DURATION', 1209600))  # Default to 2 weeks
 SLEEP_DURATION = int(os.getenv('SLEEP_DURATION', 60)) # Default to 1 minute
 
 # Logging 
-LOG_FILE = os.getenv('LOG_FILE', 'app.log')
+LOG_FILE = os.getenv('LOG_FILE', 'logs/app.log')
 LOG_MAX_BYTES = int(os.getenv('LOG_MAX_BYTES', '1000000'))
 LOG_BACKUP_COUNT = int(os.getenv('LOG_BACKUP_COUNT', '5'))
